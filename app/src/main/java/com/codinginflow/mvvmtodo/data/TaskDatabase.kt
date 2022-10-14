@@ -3,6 +3,7 @@ package com.codinginflow.mvvmtodo.data
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.codinginflow.mvvmtodo.di.ApplicationScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -14,7 +15,7 @@ abstract class TaskDatabase:RoomDatabase() {
 
     class CallBack @Inject constructor(
         private val database: Provider<TaskDatabase>,
-        private val applicationScope: CoroutineScope
+        @ApplicationScope private val applicationScope: CoroutineScope
     ):RoomDatabase.Callback(){
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
@@ -22,11 +23,11 @@ abstract class TaskDatabase:RoomDatabase() {
             val dao = database.get().taskDao()
 
             applicationScope.launch {
-                dao.insert(Task("Wash the dishe", important = true))
-                dao.insert(Task("Wash the dishe"))
-                dao.insert(Task("Wash the dishe", important = true))
-                dao.insert(Task("Wash the dishe"))
-                dao.insert(Task("Wash the dishe"))
+                dao.insert(Task("Wash the short", important = true))
+                dao.insert(Task("Learn the mvvm"))
+                dao.insert(Task("Laravel Project", important = true))
+                dao.insert(Task("Building An Application"))
+                dao.insert(Task("Testing Webserver"))
             }
 
         }
